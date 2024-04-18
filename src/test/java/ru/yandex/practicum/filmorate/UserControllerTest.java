@@ -21,7 +21,6 @@ class UserControllerTest {
     public void testUserValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        UserController controller = new UserController();
         User user = User.builder()
                 .email("george@yandex.ru")
                 .name("George")
@@ -37,7 +36,6 @@ class UserControllerTest {
     public void testInvalidUserEmailValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        UserController controller = new UserController();
         User user = User.builder()
                 .email("")
                 .name("George")
@@ -53,7 +51,6 @@ class UserControllerTest {
     public void testInvalidUserNameValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        UserController controller = new UserController();
         User user = User.builder()
                 .email("george@yandex.ru")
                 .name("")
@@ -69,7 +66,6 @@ class UserControllerTest {
     public void testInvalidUserLoginValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        UserController controller = new UserController();
         User user = User.builder()
                 .email("george@yandex.ru")
                 .name("George")
@@ -78,6 +74,6 @@ class UserControllerTest {
                 .build();
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        assertEquals(1, violations.size());
+        assertEquals(2, violations.size());
     }
 }

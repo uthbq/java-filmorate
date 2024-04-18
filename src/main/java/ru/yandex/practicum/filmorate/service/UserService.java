@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
+import ru.yandex.practicum.filmorate.validation.NotFoundException;
 
 
 import java.util.HashSet;
@@ -27,7 +28,7 @@ public class UserService {
         return userStorage.updateUser(user);
     }
 
-    public Set<User> getAll() {
+    public List<User> getAll() {
         return userStorage.getAll();
     }
 
@@ -40,6 +41,9 @@ public class UserService {
     }
 
     public User addFriendship(Integer id, Integer friendId) {
+        if (!userStorage.isUserExist(id) && !userStorage.isUserExist(friendId)) {
+            throw new IllegalArgumentException("Некорректные id пользователя или друга.");
+        }
         User user = getById(id);
         User friend = getById(friendId);
         user.getFriends().add(friendId);
@@ -48,18 +52,27 @@ public class UserService {
     }
 
     public User removeFriend(Integer userId, Integer friendId) {
+        if (!userStorage.isUserExist(userId) && !userStorage.isUserExist(friendId)) {
+            throw new IllegalArgumentException("Некорректные id пользователя или друга.");
+        }
         getById(userId).getFriends().remove(friendId);
         getById(friendId).getFriends().remove(userId);
         return getById(userId);
     }
 
     public List<User> getUserFriends(Integer userId) {
+        if (!userStorage.isUserExist(userId)) {
+            throw new NotFoundException("Некорректный id пользователя.");
+        }
         return getById(userId).getFriends().stream()
                 .map(this::getById)
                 .collect(Collectors.toList());
     }
 
     public List<User> findCommonFriends(Integer userId, Integer friendId) {
+        if (!userStorage.isUserExist(userId) && !userStorage.isUserExist(friendId)) {
+            throw new IllegalArgumentException("Некорректные id пользователя или друга.");
+        }
         Set<Integer> mutualFriends = new HashSet<>(getById(userId).getFriends());
         mutualFriends.retainAll(getById(friendId).getFriends());
         return mutualFriends.stream().map(this::getById).collect(Collectors.toList());

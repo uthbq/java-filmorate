@@ -2,8 +2,7 @@ package ru.yandex.practicum.filmorate.storage.user;
 
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Set;
-
+import java.util.List;
 
 public interface UserStorage {
 
@@ -11,7 +10,7 @@ public interface UserStorage {
 
     User createUser(User user);
 
-    Set<User> getAll();
+    List<User> getAll();
 
     boolean isUserExist(Integer id);
 

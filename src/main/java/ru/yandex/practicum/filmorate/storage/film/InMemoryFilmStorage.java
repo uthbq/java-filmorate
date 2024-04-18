@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage.film;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.validation.NotFoundException;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Film update(Film film) {
         if (!films.contains(film)) {
-            throw new ValidationException("Такого фильма не существует.");
+            throw new NotFoundException("Такого фильма не существует.");
         }
         films.add(film);
         log.info("Фильм {} обновлен.", film);
@@ -53,13 +54,17 @@ public class InMemoryFilmStorage implements FilmStorage {
         return films.stream()
                 .filter(film -> film.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ValidationException("Нет фильма с таким id."));
+                .orElseThrow(() -> new NotFoundException("Нет фильма с таким id."));
     }
 
     @Override
     public void deleteById(Integer id) {
         Film filmToRemove = getById(id);
-        films.remove(filmToRemove);
-        log.info("Фильм {} удален.", filmToRemove.getName());
+        if (filmToRemove != null) {
+            films.remove(filmToRemove);
+            log.info("Фильм {} удален.", filmToRemove.getName());
+        } else {
+            throw new NotFoundException("Такого фильма не существует.");
+        }
     }
 }
