@@ -20,7 +20,7 @@ public class FilmController {
     private final Map<Integer, Film> films = new HashMap<>();
     private int filmId = 1;
 
-    private final LocalDate START_DATE = LocalDate.of(1895, 12, 27);
+    private static final LocalDate START_DATE = LocalDate.of(1895, 12, 27);
 
     @GetMapping
     public List<Film> findAll() {
