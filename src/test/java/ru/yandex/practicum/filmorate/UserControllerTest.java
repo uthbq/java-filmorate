@@ -34,7 +34,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testInvalidUserValidation() {
+    public void testInvalidUserEmailValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         UserController controller = new UserController();
@@ -50,7 +50,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testInvalidUserValidation1() {
+    public void testInvalidUserNameValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         UserController controller = new UserController();
@@ -66,7 +66,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testInvalidUserValidation2() {
+    public void testInvalidUserLoginValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         UserController controller = new UserController();

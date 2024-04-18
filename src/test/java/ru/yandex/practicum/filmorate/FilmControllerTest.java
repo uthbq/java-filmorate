@@ -35,7 +35,7 @@ class FilmControllerTest {
     }
 
     @Test
-    public void InvalidFilmValidation1() {
+    public void InvalidFilmNameValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         FilmController filmController = new FilmController();
@@ -50,7 +50,7 @@ class FilmControllerTest {
     }
 
     @Test
-    public void InvalidFilmValidation2() {
+    public void InvalidFilmDescriptionValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         FilmController filmController = new FilmController();
@@ -65,7 +65,7 @@ class FilmControllerTest {
     }
 
     @Test
-    public void InvalidFilmValidation3() {
+    public void InvalidFilmDurationValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         FilmController filmController = new FilmController();
