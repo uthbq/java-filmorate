@@ -30,6 +30,11 @@ public class UserController {
         return userService.update(user);
     }
 
+    @GetMapping
+    public List<User> getAll() {
+        return userService.getAll();
+    }
+
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable int userId) {
         return userService.getById(userId);
