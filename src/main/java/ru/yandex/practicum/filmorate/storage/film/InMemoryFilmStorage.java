@@ -60,11 +60,10 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public void deleteById(Integer id) {
         Film filmToRemove = getById(id);
-        if (filmToRemove != null) {
-            films.remove(filmToRemove);
-            log.info("Фильм {} удален.", filmToRemove.getName());
-        } else {
+        if (filmToRemove == null) {
             throw new NotFoundException("Такого фильма не существует.");
         }
+        films.remove(filmToRemove);
+        log.info("Фильм {} удален.", filmToRemove.getName());
     }
 }

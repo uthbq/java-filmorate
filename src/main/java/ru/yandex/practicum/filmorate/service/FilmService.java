@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
-import ru.yandex.practicum.filmorate.validation.HandleNotFoundException;
 
 import java.util.Comparator;
 import java.util.List;
@@ -44,18 +43,14 @@ public class FilmService {
     }
 
     public Film addLike(Integer filmId, Integer userId) {
-        if (!userStorage.isUserExist(userId)) {
-            throw new HandleNotFoundException("Нет пользователя с таким id.");
-        }
+        userStorage.getById(userId);
         Film film = filmStorage.getById(filmId);
         film.getLike().add(userId);
         return film;
     }
 
     public Film deleteLike(Integer filmId, Integer userId) {
-        if (!userStorage.isUserExist(userId)) {
-            throw new HandleNotFoundException("Нет пользователя с таким id.");
-        }
+        userStorage.getById(userId);
         Film film = filmStorage.getById(filmId);
         film.getLike().remove(userId);
         return film;

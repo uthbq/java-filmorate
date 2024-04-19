@@ -6,13 +6,14 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validation.NotFoundException;
 import ru.yandex.practicum.filmorate.validation.ValidationException;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Component
 @Slf4j
 public class InMemoryUserStorage implements UserStorage {
-    private final Set<User> users = new HashSet<>();
+    private final HashMap<Integer, User> users = new HashMap<>();
     private int nextId = 1;
 
     private int generateId() {
@@ -21,61 +22,57 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        if (!users.contains(user)) {
+        if (!users.containsValue(user)) {
             throw new NotFoundException("Такого пользователя не существует.");
         }
-        users.add(user);
+        users.put(user.getId(), user);
         log.info("Пользователь {} обновлен.", user);
         return user;
     }
 
     @Override
     public User createUser(User user) {
-        if (users.contains(user)) {
-            throw new ValidationException("Такой пользователь уже существует.");
+        for (User existingUser : users.values()) {
+            if (existingUser.equals(user)) {
+                throw new ValidationException("Такой пользователь уже существует.");
+            }
+            if (existingUser.getEmail().equals(user.getEmail())) {
+                throw new ValidationException("Пользователь с таким email уже существует.");
+            }
         }
-        if (users.stream()
-                .filter(existingUser -> !existingUser.equals(user))
-                .anyMatch(existingUser -> existingUser.getEmail().equals(user.getEmail()))) {
-            throw new ValidationException("Пользователь с таким email уже существует.");
-        }
+
         user.setId(generateId());
         if (user.getName() == null || user.getName().isEmpty()) {
             user.setName(user.getLogin());
         }
-        users.add(user);
+        users.put(user.getId(), user);
         log.info("Пользователь {} добавлен.", user);
         return user;
     }
 
     @Override
     public List<User> getAll() {
-        List<User> allUsers = new ArrayList<>(users);
-        return allUsers;
+        return new ArrayList<>(users.values());
     }
 
     @Override
     public boolean isUserExist(Integer id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return users.containsKey(id);
     }
 
     @Override
     public void deleteById(Integer userId) {
-        User userToRemove = getById(userId);
-        users.remove(userToRemove);
+        if (!users.containsKey(userId)) {
+            throw new NotFoundException("Нет пользователя с таким id.");
+        }
+        users.remove(userId);
     }
 
     @Override
     public User getById(int userId) {
-        return users.stream()
+        return users.values().stream()
                 .filter(user -> user.getId().equals(userId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Нет пользователя с таким id."));
     }
-
 }
