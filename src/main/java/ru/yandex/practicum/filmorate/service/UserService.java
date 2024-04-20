@@ -48,20 +48,20 @@ public class UserService {
     }
 
     public User removeFriend(Integer userId, Integer friendId) {
-        getById(userId).getFriends().remove(friendId);
-        getById(friendId).getFriends().remove(userId);
-        return getById(userId);
+        userStorage.getById(userId).getFriends().remove(friendId);
+        userStorage.getById(friendId).getFriends().remove(userId);
+        return userStorage.getById(userId);
     }
 
     public List<User> getUserFriends(Integer userId) {
-        return getById(userId).getFriends().stream()
+        return userStorage.getById(userId).getFriends().stream()
                 .map(this::getById)
                 .collect(Collectors.toList());
     }
 
     public List<User> findCommonFriends(Integer userId, Integer friendId) {
-        Set<Integer> mutualFriends = new HashSet<>(getById(userId).getFriends());
-        mutualFriends.retainAll(getById(friendId).getFriends());
+        Set<Integer> mutualFriends = new HashSet<>(userStorage.getById(userId).getFriends());
+        mutualFriends.retainAll(userStorage.getById(friendId).getFriends());
         return mutualFriends.stream().map(this::getById).collect(Collectors.toList());
     }
 }

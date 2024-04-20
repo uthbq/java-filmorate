@@ -22,7 +22,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        if (!users.containsValue(user)) {
+        if (!users.containsKey(user.getId())) {
             throw new NotFoundException("Такого пользователя не существует.");
         }
         users.put(user.getId(), user);
@@ -55,10 +55,6 @@ public class InMemoryUserStorage implements UserStorage {
         return new ArrayList<>(users.values());
     }
 
-    @Override
-    public boolean isUserExist(Integer id) {
-        return users.containsKey(id);
-    }
 
     @Override
     public void deleteById(Integer userId) {
@@ -70,9 +66,10 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User getById(int userId) {
-        return users.values().stream()
-                .filter(user -> user.getId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Нет пользователя с таким id."));
+        User user = users.get(userId);
+        if (user == null) {
+            throw new NotFoundException("Нет пользователя с таким id.");
+        }
+        return user;
     }
 }
