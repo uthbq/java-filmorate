@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate;
 
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import javax.validation.ConstraintViolation;
@@ -23,7 +22,6 @@ class FilmControllerTest {
     void testFilmValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        FilmController filmController = new FilmController();
         Film film = Film.builder()
                 .name("Transformers")
                 .description("Test film")
@@ -38,7 +36,6 @@ class FilmControllerTest {
     void invalidFilmNameValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        FilmController filmController = new FilmController();
         Film film = Film.builder()
                 .name("")
                 .description("Test film")
@@ -53,7 +50,6 @@ class FilmControllerTest {
     void invalidFilmDescriptionValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        FilmController filmController = new FilmController();
         Film film = Film.builder()
                 .name("Transformers")
                 .description("")
@@ -68,7 +64,6 @@ class FilmControllerTest {
     void invalidFilmDurationValidation() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        FilmController filmController = new FilmController();
         Film film = Film.builder()
                 .name("Transformers")
                 .description("Test film")

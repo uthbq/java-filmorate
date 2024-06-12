@@ -1,29 +1,38 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Film.
- */
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = {"id"})
 @Builder
 public class Film {
     private Integer id;
-    @NotBlank(message = "Название фильма не может быть пустым")
-    private final String name;
-    @Size(min = 1, max = 200)
-    private final String description;
-    @Min(1)
+
+    private final Set<Integer> like = new HashSet<>();
+    @NotBlank(message = "Название фильма не может быть пустым.")
+    private String name;
+
+    @NotBlank(message = "Описание фильма не может быть пустым.")
+    @Size(max = 200, message = "Длина описания фильма не должна превышать 200 символов.")
+    private String description;
+
+    @NotNull(message = "Дата релиза не может быть пустой.")
+    private LocalDate releaseDate;
+
+    @Positive(message = "Продолжительность фильма должна быть положительной.")
     private int duration;
-    @NotNull
-    private final LocalDate releaseDate;
 
-
+    @AssertTrue(message = "Дата релиза фильма должна быть не раньше 28 декабря 1895 года.")
+    @JsonIgnore
+    public boolean isReleaseDateValid() {
+        return releaseDate != null && !releaseDate.isBefore(LocalDate.of(1895, 12, 28));
+    }
 }
