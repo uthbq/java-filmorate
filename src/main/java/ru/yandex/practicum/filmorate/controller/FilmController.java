@@ -66,7 +66,8 @@ public class FilmController {
         log.info("Запрос на удаление фильма с id {}", id);
         filmService.deleteFilm(id);
     }
-    
+
+
     @GetMapping("/common")
     public List<Film> getCommonsFilms(
             @RequestParam(value = "userId") int userId,
