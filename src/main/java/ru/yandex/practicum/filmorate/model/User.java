@@ -1,34 +1,46 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode(of = {"id"})
-@Builder
+@NoArgsConstructor
+@EqualsAndHashCode
 public class User {
-
     private Integer id;
 
-    private final Set<Integer> friends = new HashSet<>();
-
-    @NotBlank(message = "Электронная почта не может быть пустой.")
-    @Email(message = "Неверный формат электронной почты.")
+    @NotBlank(message = "Электронная почта не может быть пустой")
+    @Email(message = "Электронная почта не корректна")
     private String email;
 
-    @NotBlank(message = "Логин не может быть пустым.")
-    @Pattern(regexp = "\\S+", message = "Логин не может содержать пробелы")
+    @NotBlank(message = "Логин не может быть пустым")
     private String login;
 
     private String name;
 
     @NotNull(message = "Дата рождения не может быть пустой")
-    @Past(message = "Дата рождения не может быть в будущем.")
+    @PastOrPresent(message = "Дата рождения не может быть в будущем")
     private LocalDate birthday;
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("ID", id);
+        map.put("EMAIL", email);
+        map.put("NAME", name);
+        map.put("LOGIN", login);
+        map.put("BIRTHDAY", birthday);
+        return map;
+    }
 }
