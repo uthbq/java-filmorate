@@ -122,7 +122,7 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public void deleteFilm(int id) {
         String sqlQuery = "DELETE FROM films WHERE id = ?";
-        int update = jdbcTemplate.update(sqlQuery,id);
+        int update = jdbcTemplate.update(sqlQuery, id);
         if (update == 0) {
             throw new UpdateException("Фильм с id =  " + id + " не найден");
         }
@@ -169,12 +169,10 @@ public class FilmDbStorage implements FilmStorage {
 
 
     private Film mapRowToFilmWithGenres(ResultSet rs, int rowNum) throws SQLException {
-        Film film = mapRowToFilm(rs,rowNum);
+        Film film = mapRowToFilm(rs, rowNum);
         film.setGenres(getAllGenresByFilmId(rs.getInt("id")));
         return film;
     }
-
-
 
 
 }

@@ -53,7 +53,7 @@ public class UserDbStorageTest {
 
         userStorage.update(user);
         List<User> users = userStorage.getAll();
-        assertEquals(users.size(),2);
+        assertEquals(users.size(), 2);
         assertThat(users.get(1)).hasFieldOrPropertyWithValue("id", 1);
         assertThat(users.get(1)).hasFieldOrPropertyWithValue("name", "updateName");
         assertThat(users.get(1)).hasFieldOrPropertyWithValue("email", "updateTest@email.ru");

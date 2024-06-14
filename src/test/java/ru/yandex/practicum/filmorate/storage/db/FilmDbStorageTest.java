@@ -184,13 +184,13 @@ public class FilmDbStorageTest {
         Film film = filmStorage.getFilmById(1);
         Film film2 = filmStorage.getFilmById(2);
 
-        filmStorage.addLikeToFilm(user.getId(),film.getId());
-        filmStorage.addLikeToFilm(user2.getId(),film.getId());
-        filmStorage.addLikeToFilm(user.getId(),film2.getId());
+        filmStorage.addLikeToFilm(user.getId(), film.getId());
+        filmStorage.addLikeToFilm(user2.getId(), film.getId());
+        filmStorage.addLikeToFilm(user.getId(), film2.getId());
 
 
-        assertEquals(filmStorage.getAllFilmLikes(1).size(),2);
-        assertEquals(filmStorage.getAllFilmLikes(2).size(),1);
+        assertEquals(filmStorage.getAllFilmLikes(1).size(), 2);
+        assertEquals(filmStorage.getAllFilmLikes(2).size(), 1);
     }
 
     @Test
@@ -201,18 +201,18 @@ public class FilmDbStorageTest {
         Film film = filmStorage.getFilmById(1);
         Film film2 = filmStorage.getFilmById(2);
 
-        filmStorage.addLikeToFilm(user.getId(),film.getId());
-        filmStorage.addLikeToFilm(user2.getId(),film.getId());
-        filmStorage.addLikeToFilm(user.getId(),film2.getId());
+        filmStorage.addLikeToFilm(user.getId(), film.getId());
+        filmStorage.addLikeToFilm(user2.getId(), film.getId());
+        filmStorage.addLikeToFilm(user.getId(), film2.getId());
 
 
-        assertEquals(filmStorage.getAllFilmLikes(1).size(),2);
-        assertEquals(filmStorage.getAllFilmLikes(2).size(),1);
+        assertEquals(filmStorage.getAllFilmLikes(1).size(), 2);
+        assertEquals(filmStorage.getAllFilmLikes(2).size(), 1);
 
-        filmStorage.removeLikeFromFilm(user.getId(),film.getId());
-        filmStorage.removeLikeFromFilm(user.getId(),film2.getId());
+        filmStorage.removeLikeFromFilm(user.getId(), film.getId());
+        filmStorage.removeLikeFromFilm(user.getId(), film2.getId());
 
-        assertEquals(filmStorage.getAllFilmLikes(1).size(),1);
-        assertEquals(filmStorage.getAllFilmLikes(2).size(),0);
+        assertEquals(filmStorage.getAllFilmLikes(1).size(), 1);
+        assertEquals(filmStorage.getAllFilmLikes(2).size(), 0);
     }
 }
