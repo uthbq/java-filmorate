@@ -166,6 +166,8 @@ public class FilmDbStorage implements FilmStorage {
         film.setDuration(rs.getInt("duration"));
         return film;
     }
+
+
     private Film mapRowToFilmWithGenres(ResultSet rs, int rowNum) throws SQLException {
         Film film = mapRowToFilm(rs,rowNum);
         film.setGenres(getAllGenresByFilmId(rs.getInt("id")));
