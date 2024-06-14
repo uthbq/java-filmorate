@@ -153,9 +153,7 @@ public class FilmService {
         return filmStorage.getAllGenresByFilmId(filmId);
     }
 
-    public void deleteFilm(int id) {
-        filmStorage.deleteFilm(id);
-    }
+    public void deleteFilm(int id) {filmStorage.deleteFilm(id);}
 
     public List<Film> getCommonFilms(int userId, int friendId) {
         return filmStorage.getCommonFilms(userId,friendId);
