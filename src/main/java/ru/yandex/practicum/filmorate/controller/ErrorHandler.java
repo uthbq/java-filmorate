@@ -29,13 +29,6 @@ public class ErrorHandler {
         return new ErrorResponse("Ошибка: " + e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleException(final Exception e) {
-        log.error("Получен статус 500", e);
-        return new ErrorResponse("Внутренняя ошибка сервера: " + e.getMessage());
-    }
-
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleThrowable(final Throwable e) {
