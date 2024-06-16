@@ -1,38 +1,46 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-
 import javax.validation.constraints.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
 
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode(of = {"id"})
-@Builder
+@NoArgsConstructor
 public class Film {
     private Integer id;
 
-    private final Set<Integer> like = new HashSet<>();
-    @NotBlank(message = "Название фильма не может быть пустым.")
+    @NotBlank(message = "Название фильма не может быть пустым")
     private String name;
 
-    @NotBlank(message = "Описание фильма не может быть пустым.")
-    @Size(max = 200, message = "Длина описания фильма не должна превышать 200 символов.")
+    @Size(max = 200, message = "Максимальная длина описания — 200 символов")
     private String description;
 
-    @NotNull(message = "Дата релиза не может быть пустой.")
     private LocalDate releaseDate;
 
-    @Positive(message = "Продолжительность фильма должна быть положительной.")
+    @Positive(message = "Продолжительность фильма должна быть положительным числом")
     private int duration;
 
-    @AssertTrue(message = "Дата релиза фильма должна быть не раньше 28 декабря 1895 года.")
-    @JsonIgnore
-    public boolean isReleaseDateValid() {
-        return releaseDate != null && !releaseDate.isBefore(LocalDate.of(1895, 12, 28));
+    private FilmMpa mpa;
+    private Set<Genre> genres = new HashSet<>();
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("ID", id);
+        map.put("NAME", name);
+        map.put("DESCRIPTION", description);
+        map.put("RELEASE_DATE", releaseDate);
+        map.put("DURATION", duration);
+        map.put("MPA_ID", mpa.getId());
+        return map;
     }
+
 }
