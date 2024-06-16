@@ -14,9 +14,16 @@ import ru.yandex.practicum.filmorate.model.ErrorResponse;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler({ValidationException.class, ValidateException.class, Throwable.class})
+    @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleBadRequestExceptions(final RuntimeException e) {
+    public ErrorResponse handleValidationException(final ValidationException e) {
+        log.error("Получен статус 400 {}", e.getMessage());
+        return new ErrorResponse("Ошибка : " + e.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidateException(final ValidateException e) {
         log.error("Получен статус 400 {}", e.getMessage());
         return new ErrorResponse("Ошибка : " + e.getMessage());
     }
