@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.ErrorResponse;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler({ValidationException.class, ValidateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(final ValidationException e) {
+    public ErrorResponse handleBadRequestExceptions(final RuntimeException e) {
         log.error("Получен статус 400 {}", e.getMessage());
         return new ErrorResponse("Ошибка : " + e.getMessage());
     }
@@ -28,10 +31,13 @@ public class ErrorHandler {
         return new ErrorResponse("Ошибка : " + e.getMessage());
     }
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleThrowable(final Throwable e) {
-        log.error("Получен статус 500 {}", e.getMessage());
-        return new ErrorResponse("Внутренняя ошибка сервера: " + e.getMessage());
+    public ErrorResponse handleException(final Exception e) {
+        log.warn("Error", e);
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return new ErrorResponse(sw.toString());
     }
 }
