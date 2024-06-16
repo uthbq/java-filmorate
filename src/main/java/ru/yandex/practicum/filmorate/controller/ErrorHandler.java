@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.ErrorResponse;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
@@ -20,24 +17,28 @@ public class ErrorHandler {
     @ExceptionHandler({ValidationException.class, ValidateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequestExceptions(final RuntimeException e) {
-        log.error("Получен статус 400 {}", e.getMessage());
-        return new ErrorResponse("Ошибка : " + e.getMessage());
+        log.error("Получен статус 400", e);
+        return new ErrorResponse("Ошибка: " + e.getMessage());
     }
 
     @ExceptionHandler({CreationException.class, UpdateException.class, EmptyResultDataAccessException.class, ElementIsNullException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundExceptions(final RuntimeException e) {
-        log.error("Получен статус 404 {}", e.getMessage());
-        return new ErrorResponse("Ошибка : " + e.getMessage());
+        log.error("Получен статус 404", e);
+        return new ErrorResponse("Ошибка: " + e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(final Exception e) {
-        log.warn("Error", e);
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        return new ErrorResponse(sw.toString());
+        log.error("Получен статус 500", e);
+        return new ErrorResponse("Внутренняя ошибка сервера: " + e.getMessage());
+    }
+
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleThrowable(final Throwable e) {
+        log.error("Получен статус 500", e);
+        return new ErrorResponse("Внутренняя ошибка сервера: " + e.getMessage());
     }
 }
