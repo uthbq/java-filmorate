@@ -29,7 +29,7 @@ public class ErrorHandler {
         return new ErrorResponse("Ошибка: " + e.getMessage());
     }
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleThrowable(final Throwable e) {
         log.error("Получен статус 500", e);
