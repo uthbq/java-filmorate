@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,9 +57,15 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public void putGenreIdAndFilmId(int filmId, int genreId) {
+    public void putGenreIdAndFilmId(int filmId, List<Integer> genreIds) {
         String sqlQuery = "INSERT INTO film_genres(film_id, genre_id) VALUES (?, ?)";
-        jdbcTemplate.update(sqlQuery, filmId, genreId);
+
+        List<Object[]> batchArgs = new ArrayList<>();
+        for (Integer genreId : genreIds) {
+            batchArgs.add(new Object[]{filmId, genreId});
+        }
+
+        jdbcTemplate.batchUpdate(sqlQuery, batchArgs);
     }
 
     @Override

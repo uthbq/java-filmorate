@@ -18,6 +18,7 @@ import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class FilmService {
     }
 
 
-    public Film update(@RequestBody @Valid Film film) {
+    public Film update(Film film) {
         if (filmStorage.getFilmById(film.getId()) == null) {
             throw new UpdateException("Фильм с id: " + film.getId() + " не найден");
         }
@@ -63,7 +64,6 @@ public class FilmService {
     public Film getFilmById(int id) {
         Film film = filmStorage.getFilmById(id);
         genreAndMpaValidation(film);
-        film.getGenres().clear();
         film.setGenres(getAllGenresByFilmId(id));
         return film;
     }
@@ -101,7 +101,7 @@ public class FilmService {
 
     private void addFilmGenresToDb(Film film) {
         for (Genre genre : film.getGenres()) {
-            filmStorage.putGenreIdAndFilmId(film.getId(), genre.getId());
+            filmStorage.putGenreIdAndFilmId(film.getId(), Collections.singletonList(genre.getId()));
         }
     }
 

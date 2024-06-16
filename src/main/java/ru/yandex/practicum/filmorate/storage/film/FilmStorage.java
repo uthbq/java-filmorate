@@ -16,7 +16,7 @@ public interface FilmStorage {
 
     Film getFilmById(int id);
 
-    void putGenreIdAndFilmId(int filmId, int genreId);
+    void putGenreIdAndFilmId(int filmId, List<Integer> genreIds);
 
     FilmMpa getMpaById(int id);
 

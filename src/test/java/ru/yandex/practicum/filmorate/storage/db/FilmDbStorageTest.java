@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -169,8 +170,8 @@ public class FilmDbStorageTest {
     @Test
     @Sql(scripts = {"/filmDbStorageTest.sql"})
     void shouldGetAllGenresByFilmId() {
-        filmStorage.putGenreIdAndFilmId(1, 4);
-        filmStorage.putGenreIdAndFilmId(1, 6);
+        filmStorage.putGenreIdAndFilmId(1, Collections.singletonList(4));
+        filmStorage.putGenreIdAndFilmId(1, Collections.singletonList(6));
         Set<Genre> films = filmStorage.getAllGenresByFilmId(1);
 
         assertEquals(films.size(), 2);
