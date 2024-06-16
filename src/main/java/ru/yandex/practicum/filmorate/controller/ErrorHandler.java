@@ -21,13 +21,6 @@ public class ErrorHandler {
         return new ErrorResponse("Ошибка : " + e.getMessage());
     }
 
-    @ExceptionHandler(ValidateException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidateException(final ValidateException e) {
-        log.error("Получен статус 400 {}", e.getMessage());
-        return new ErrorResponse("Ошибка : " + e.getMessage());
-    }
-
     @ExceptionHandler({CreationException.class, UpdateException.class, EmptyResultDataAccessException.class, ElementIsNullException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundExceptions(final RuntimeException e) {
