@@ -21,7 +21,7 @@ public class ErrorHandler {
         return new ErrorResponse("Ошибка : " + e.getMessage());
     }
 
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(ValidateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidateException(final ValidateException e) {
         log.error("Получен статус 400 {}", e.getMessage());
