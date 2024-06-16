@@ -17,7 +17,7 @@ public class ErrorHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class, ValidationException.class, ValidateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidation(final ValidationException e) {
+    public ErrorResponse handleValidation(final RuntimeException e) {
         log.error("Получен статус 400", e);
         return new ErrorResponse(e.getMessage());
     }
@@ -29,7 +29,7 @@ public class ErrorHandler {
         return new ErrorResponse("Ошибка: " + e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleThrowable(final Throwable e) {
         log.error("Получен статус 500", e);
