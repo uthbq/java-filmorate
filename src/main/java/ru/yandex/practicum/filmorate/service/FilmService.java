@@ -1,11 +1,9 @@
 package ru.yandex.practicum.filmorate.service;
 
 
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.exception.CreationException;
 import ru.yandex.practicum.filmorate.exception.ElementIsNullException;
 import ru.yandex.practicum.filmorate.exception.UpdateException;
